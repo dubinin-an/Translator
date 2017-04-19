@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class GetLangsReply {
     private List<String> dirs = new ArrayList<String>();
     @SerializedName("langs")
     @Expose
-    private ArrayMap<String,String> langs;
+    private HashMap<String,String> langs;
 
     public List<String> getDirs() {
         return dirs;
@@ -33,7 +34,7 @@ public class GetLangsReply {
      * Получить языковой массив
       * @return
      */
-    public ArrayMap<String,String> getLangs() {
+    public HashMap<String,String> getLangs() {
         return langs;
     }
 
@@ -60,7 +61,7 @@ public class GetLangsReply {
         return null;
     }
 
-    public void setLangs(ArrayMap<String,String> langs) {
+    public void setLangs(HashMap<String,String> langs) {
         this.langs = langs;
     }
 

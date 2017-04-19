@@ -1,5 +1,8 @@
 package ru.dan.translator.call;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
@@ -9,11 +12,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.dan.translator.LangsSelector;
 import ru.dan.translator.MainActivity;
 import ru.dan.translator.RetrofitConnector;
+import ru.dan.translator.TextEditor;
 import ru.dan.translator.response.GetLangsReply;
-
-import static android.R.id.list;
+import ru.dan.translator.response.TranslateReply;
 
 /**
  * Created by  DubininA on 09.04.2017.
@@ -21,28 +25,31 @@ import static android.R.id.list;
 
 public class Calls{
     YTapi ytAPI;
-    WeakReference<MainActivity> activity;
+    WeakReference<Context> context;
     //TODO WeakReference
 
-    public Calls(MainActivity mainActivity) {
-        activity = new WeakReference<MainActivity>(mainActivity);
+    public Calls(Context context) {
+        this.context = new WeakReference<Context>(context);
         ytAPI = new RetrofitConnector().getYT();
     }
 
-    public List<String> getLangs() {
-        final List<String> list = new ArrayList<>();
+    public void getLangs() {
         Call<GetLangsReply> langs = ytAPI.yt_getLangs("ru", MainActivity.API_KEY);
 
-        Callback<GetLangsReply> respCallBack = new Callback<GetLangsReply>() {
+        Callback<GetLangsReply> respLangsCallBack = new Callback<GetLangsReply>() {
             @Override
             public void onResponse(Call<GetLangsReply> call, Response<GetLangsReply> response) {
                 if (response != null) {
-//                    list.addAll(response.body().getLangsValues());
-                    Log.d("happy", "CALLS: " + response.body().getLangsValues());
-                    MainActivity a = activity.get();
-                    if (a != null) {
-                        a.setLangsList(response.body().getLangsValues());
-                    }
+//                    Log.d("happy", "CALLS: " + response.body().getLangs());
+
+                    Intent intent = new Intent("YT_GETLANGS");
+                    intent.putExtra("GETLANGS", response.body().getLangs());
+//                    Log.d("happy","LangsSelector" + response.body().getLangs());
+
+
+                    Context c = context.get();
+                    if (c != null)
+                        LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
                 }
             }
 
@@ -52,41 +59,33 @@ public class Calls{
             }
         };
 
-//        langs.enqueue(new GetLangsResponce(activity));
-        langs.enqueue(respCallBack);
+        langs.enqueue(respLangsCallBack);
 
-        return list;
     }
 
 
+    public void getTranslate(){
+        Call<TranslateReply> translate = ytAPI.yt_translate(MainActivity.API_KEY, LangsSelector.getDirs(), TextEditor.getText());
 
+        Callback<TranslateReply> replyTranslateCallBack = new Callback<TranslateReply>() {
+            @Override
+            public void onResponse(Call<TranslateReply> call, Response<TranslateReply> response) {
+                Log.d("happy", response.body().getText().toString());
+                Intent intent = new Intent("YT_GETTRANSLATE");
+                intent.putExtra("GETTRANSLATE", response.body().getFormatText());
+                Context c = context.get();
+                if (c != null)
+                    LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
+            }
 
+            @Override
+            public void onFailure(Call<TranslateReply> call, Throwable t) {
+                Log.e("happy", "Error: " + call.request().toString() + "   *********   " + t.getMessage());
+            }
+        };
 
+        translate.enqueue(replyTranslateCallBack);
+    }
 
-
-//    private class GetLangsResponce implements Callback<GetLangsReply> {
-//        private OnGetLangsList listner;
-//
-//        public GetLangsResponce(OnGetLangsList listner){
-//            this.listner = listner;
-//        }
-//        @Override
-//        public void onResponse(Call<GetLangsReply> call, Response<GetLangsReply> response) {
-//            if (response != null) {
-//                List<String> list = response.body().getLangsValues();
-//                Log.d("happy", "CALLS: " + response.body().getLangsValues());
-//                listner.setLangsList(list);
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(Call<GetLangsReply> call, Throwable t) {
-//            Log.e("happy", "Error: " + call.request().toString() + "   *********   " + t.getMessage());
-//        }
-//
-//    }
-//    public interface OnGetLangsList {
-//        void setLangsList(List<String> list);
-//    }
 }
 

@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="center"
-            android:text="Перевод" />
+            android:text="Перевод"
+            />
 
         <EditText
             android:id="@+id/translate"

@@ -1,6 +1,8 @@
 
 package ru.dan.translator.response;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
@@ -47,6 +49,18 @@ public class TranslateReply {
 
     public List<String> getText() {
         return text;
+    }
+
+    public String getFormatText(){
+        String s = "";
+
+        for(String ss: text){
+            s = s.concat(ss).concat("\n");
+            Log.d("happy", "for: " + ss);
+        }
+
+        Log.d("happy", "TR: " + s);
+        return s;
     }
 
     public void setText(List<String> text) {
