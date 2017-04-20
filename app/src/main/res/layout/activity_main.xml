@@ -12,21 +12,11 @@
 
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="ru.dan.translator.LangsSelector"
-        tools:layout="@layout/langs_selector"
-        android:id="@+id/langsSelector"
-        android:tag="langsSelector"
-    />
-
-    <fragment
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="ru.dan.translator.TextEditor"
-        tools:layout="@layout/text_editor"
-        android:id="@+id/textEditor"
-        android:tag="textEditor"
-        android:layout_margin="10sp"
-        />
+        android:name="ru.dan.translator.Translator"
+        tools:layout="@layout/translator"
+        android:id="@+id/l_translator"
+        android:tag="translator"
+    />
 
 </LinearLayout>

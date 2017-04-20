@@ -56,10 +56,10 @@ public class TranslateReply {
 
         for(String ss: text){
             s = s.concat(ss).concat("\n");
-            Log.d("happy", "for: " + ss);
+//            Log.d("happy", "for: " + ss);
         }
 
-        Log.d("happy", "TR: " + s);
+//        Log.d("happy", "TR: " + s);
         return s;
     }
 

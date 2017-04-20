@@ -6,16 +6,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import ru.dan.translator.LangsSelector;
 import ru.dan.translator.MainActivity;
 import ru.dan.translator.RetrofitConnector;
-import ru.dan.translator.TextEditor;
+import ru.dan.translator.Translator;
 import ru.dan.translator.response.GetLangsReply;
 import ru.dan.translator.response.TranslateReply;
 
@@ -40,12 +36,8 @@ public class Calls{
             @Override
             public void onResponse(Call<GetLangsReply> call, Response<GetLangsReply> response) {
                 if (response != null) {
-//                    Log.d("happy", "CALLS: " + response.body().getLangs());
-
                     Intent intent = new Intent("YT_GETLANGS");
                     intent.putExtra("GETLANGS", response.body().getLangs());
-//                    Log.d("happy","LangsSelector" + response.body().getLangs());
-
 
                     Context c = context.get();
                     if (c != null)
@@ -64,13 +56,13 @@ public class Calls{
     }
 
 
-    public void getTranslate(){
-        Call<TranslateReply> translate = ytAPI.yt_translate(MainActivity.API_KEY, LangsSelector.getDirs(), TextEditor.getText());
+    public void getTranslate(String API_KEY, String dirs, String origText){
+        Call<TranslateReply> translate = ytAPI.yt_translate(API_KEY, dirs, origText);
 
         Callback<TranslateReply> replyTranslateCallBack = new Callback<TranslateReply>() {
             @Override
             public void onResponse(Call<TranslateReply> call, Response<TranslateReply> response) {
-                Log.d("happy", response.body().getText().toString());
+//                Log.d("happy", response.body().getText().toString());
                 Intent intent = new Intent("YT_GETTRANSLATE");
                 intent.putExtra("GETTRANSLATE", response.body().getFormatText());
                 Context c = context.get();
