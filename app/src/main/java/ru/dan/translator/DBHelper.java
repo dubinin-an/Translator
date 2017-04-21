@@ -19,13 +19,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String HISTORY_CREATE =
             "create table " + TABLE_HISTORY +
                     " (" + COLUMN_ID +
-                    " integer primary key autoincrement," +
-                    COLUMN_ORIGLANG + " text not null" +
-                    COLUMN_ORIGTEXT + " text not null" +
-                    COLUMN_ORIGLANG + " text not null" +
-                    COLUMN_TRANSLATELANG + " text not null" +
-                    COLUMN_TRANSLATETEXT + " text not null" +
-                    COLUMN_FAV + " text not null" +
+                    " integer primary key autoincrement,  " +
+                    COLUMN_ORIGLANG + " text not null,  " +
+                    COLUMN_ORIGTEXT + " text not null,  " +
+                    COLUMN_TRANSLATELANG + " text not null,  " +
+                    COLUMN_TRANSLATETEXT + " text not null,  " +
+                    COLUMN_FAV + " text not null  " +
                     ");";
 
     private static final String mDataBase = "history.db";

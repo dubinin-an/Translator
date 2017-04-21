@@ -1,9 +1,11 @@
 package ru.dan.translator;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,15 +48,17 @@ public class Translator extends Fragment{
     private List<String> key,val;
     private Context context;
     ArrayAdapter adapter;
-
+    private long curId;
+    private DBHelper dbHelper;
     public static final String APP_PREFERENCES_FROM = "APP_PREFERENCES_FROM", APP_PREFERENCES_TO = "APP_PREFERENCES_TO";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.translator, container, false);
-
         context = getActivity().getApplicationContext();
+
+        dbHelper = new DBHelper(context);
 
         langFrom = (Spinner) view.findViewById(R.id.langFrom);
         langTo = (Spinner) view.findViewById(R.id.langTo);
@@ -94,10 +99,31 @@ public class Translator extends Fragment{
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
                 if (intent.hasExtra("GETTRANSLATE")){
-                    translateObj.setTranslatrText(intent.getStringExtra("GETTRANSLATE"));
-                    translate.setText(translateObj.getTranslatrText());
+                    translateObj.setTranslateText(intent.getStringExtra("GETTRANSLATE"));
+                    translate.setText(translateObj.getTranslateText());
                     faView.setImageResource(android.R.drawable.btn_star_big_off);
-//                    Log.d("happy", "TEXTEDITOR: " + translateObj.getTranslatrText());
+//                    Log.d("happy", "TEXTEDITOR: " + translateObj.getTranslateText());
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBHelper.COLUMN_ORIGLANG, translateObj.getOrigLang());
+                    contentValues.put(DBHelper.COLUMN_ORIGTEXT, translateObj.getOrigText());
+                    contentValues.put(DBHelper.COLUMN_TRANSLATELANG, translateObj.getTranslateLang());
+                    contentValues.put(DBHelper.COLUMN_TRANSLATETEXT, translateObj.getTranslateText());
+                    contentValues.put(DBHelper.COLUMN_FAV, Boolean.toString(translateObj.isFavorite()));
+
+                    SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+                    if ( database.query(DBHelper.TABLE_HISTORY,null,
+                            DBHelper.COLUMN_ORIGLANG + "=? and " +
+                            DBHelper.COLUMN_ORIGTEXT + "=? and " +
+                            DBHelper.COLUMN_TRANSLATELANG + "=? and " +
+                            DBHelper.COLUMN_TRANSLATETEXT + "=? ",
+                            new String[]{translateObj.getOrigLang(),translateObj.getOrigText(),translateObj.getTranslateLang(),translateObj.getTranslateText()},
+                            null,null,null).getCount()
+                            == 0) {
+                        translateObj.setId(database.insert(DBHelper.TABLE_HISTORY, null, contentValues));
+                    }
+                    database.close();
 
                 } else Log.e("happy", "NO GETTRANSLATE");
             }else Log.e("happy", "NO INTENT");
@@ -122,15 +148,21 @@ public class Translator extends Fragment{
     View.OnClickListener btnClick_setFav = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            String f;
             if (translateObj.isFavorite()){
                 faView.setImageResource(android.R.drawable.btn_star_big_off);
                 translateObj.setFavorite(false);
-
             } else {
                 faView.setImageResource(android.R.drawable.btn_star_big_on);
                 translateObj.setFavorite(true);
-
             }
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DBHelper.COLUMN_FAV, Boolean.toString(translateObj.isFavorite()));
+            SQLiteDatabase database = dbHelper.getWritableDatabase();
+            database.update(DBHelper.TABLE_HISTORY, contentValues, DBHelper.COLUMN_ID + "=?", new String[] {Long.toString(translateObj.getId())} );
+            database.close();
+
+
         }
     };
 
@@ -148,6 +180,8 @@ public class Translator extends Fragment{
             calls.getTranslate(MainActivity.API_KEY, from + "-" + to, getOrigText());
             LocalBroadcastManager.getInstance(context).registerReceiver(translateMessageReceiver,
                     new IntentFilter("YT_GETTRANSLATE"));
+
+
         }
     };
 

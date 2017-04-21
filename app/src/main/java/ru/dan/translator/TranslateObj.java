@@ -1,20 +1,27 @@
 package ru.dan.translator;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
  * Created by  DubininA on 20.04.2017.
  */
 
 public class TranslateObj{
+    private long id;
     private String origLang;
     private String origText;
     private String translateLang;
-    private String translatrText;
+    private String translateText;
     private boolean favorite;
 
     public TranslateObj() {
 
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOrigLang() {
@@ -41,12 +48,12 @@ public class TranslateObj{
         this.origText = origText;
     }
 
-    public String getTranslatrText() {
-        return translatrText;
+    public String getTranslateText() {
+        return translateText;
     }
 
-    public void setTranslatrText(String translatrText) {
-        this.translatrText = translatrText;
+    public void setTranslateText(String translateText) {
+        this.translateText = translateText;
     }
 
     public boolean isFavorite() {
