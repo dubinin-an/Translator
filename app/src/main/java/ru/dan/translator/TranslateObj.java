@@ -7,8 +7,9 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public class TranslateObj{
-    private String dirs;
+    private String origLang;
     private String origText;
+    private String translateLang;
     private String translatrText;
     private boolean favorite;
 
@@ -16,12 +17,20 @@ public class TranslateObj{
 
     }
 
-    public String getDirs() {
-        return dirs;
+    public String getOrigLang() {
+        return origLang;
     }
 
-    public void setDirs(String dirs) {
-        this.dirs = dirs;
+    public void setOrigLang(String origLang) {
+        this.origLang = origLang;
+    }
+
+    public String getTranslateLang() {
+        return translateLang;
+    }
+
+    public void setTranslateLang(String translateLang) {
+        this.translateLang = translateLang;
     }
 
     public String getOrigText() {

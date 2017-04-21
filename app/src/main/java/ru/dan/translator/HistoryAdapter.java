@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Created by  DubininA on 20.04.2017.
  */
@@ -11,7 +13,7 @@ import android.view.ViewGroup;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>{
 
 
-    public HistoryAdapter() {
+    public HistoryAdapter(List<TranslateObj> historyList) {
     }
 
     @Override

@@ -140,11 +140,12 @@ public class Translator extends Fragment{
         public void onClick(View v) {
 
             translateObj = new TranslateObj();
-            translateObj.setDirs(getDirs());
+            translateObj.setOrigLang(from);
+            translateObj.setTranslateLang(to);
             translateObj.setOrigText(getOrigText());
 
             Calls calls = new Calls(context);
-            calls.getTranslate(MainActivity.API_KEY, getDirs(), getOrigText());
+            calls.getTranslate(MainActivity.API_KEY, from + "-" + to, getOrigText());
             LocalBroadcastManager.getInstance(context).registerReceiver(translateMessageReceiver,
                     new IntentFilter("YT_GETTRANSLATE"));
         }
@@ -218,10 +219,6 @@ public class Translator extends Fragment{
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("LANGS", langs);
-    }
-
-    public static String getDirs() {
-        return from + "-" + to;
     }
 
     public void saveCurentLangs(){
