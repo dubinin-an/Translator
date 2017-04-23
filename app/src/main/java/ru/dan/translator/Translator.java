@@ -177,7 +177,7 @@ public class Translator extends Fragment{
             translateObj.setOrigText(getOrigText());
 
             Calls calls = new Calls(context);
-            calls.getTranslate(MainActivity.API_KEY, from + "-" + to, getOrigText());
+            calls.getTranslate(MainActivity.TRANS_API_KEY, from, to, getOrigText());
             LocalBroadcastManager.getInstance(context).registerReceiver(translateMessageReceiver,
                     new IntentFilter("YT_GETTRANSLATE"));
 
