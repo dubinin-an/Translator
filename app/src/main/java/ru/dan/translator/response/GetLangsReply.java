@@ -61,6 +61,18 @@ public class GetLangsReply {
         return null;
     }
 
+    public int getIdByCode(String langCode){
+        if (langs.containsKey(langCode)){
+            int i = 0;
+            for(String s : langs.keySet()){
+                if (s.equals(langCode)){
+                    return i;
+                }else i++;
+            }
+        }
+        return 0;
+    }
+
     public void setLangs(HashMap<String,String> langs) {
         this.langs = langs;
     }

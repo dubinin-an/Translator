@@ -60,7 +60,7 @@ public class TranslateReply {
         }
 
 //        Log.d("happy", "TR: " + s);
-        return s;
+        return s.trim();
     }
 
     public void setText(List<String> text) {

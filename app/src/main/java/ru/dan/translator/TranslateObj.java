@@ -1,15 +1,18 @@
 package ru.dan.translator;
 
+import java.io.Serializable;
+
 /**
  * Created by  DubininA on 20.04.2017.
  */
 
-public class TranslateObj{
+public class TranslateObj implements Serializable{
     private long id;
     private String origLang;
     private String origText;
     private String translateLang;
     private String translateText;
+    private String translateSinonim = "";
     private boolean favorite;
 
     public TranslateObj() {
@@ -54,6 +57,14 @@ public class TranslateObj{
 
     public void setTranslateText(String translateText) {
         this.translateText = translateText;
+    }
+
+    public String getTranslateSinonim() {
+        return translateSinonim;
+    }
+
+    public void setTranslateSinonim(String translateSinonim) {
+        this.translateSinonim = translateSinonim;
     }
 
     public boolean isFavorite() {

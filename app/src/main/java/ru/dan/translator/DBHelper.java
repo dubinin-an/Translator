@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORIGTEXT = "origText";
     public static final String COLUMN_TRANSLATELANG = "translateLang";
     public static final String COLUMN_TRANSLATETEXT = "translateText";
+    public static final String COLUMN_TRANSLATESIN = "translateSin";
     public static final String COLUMN_FAV = "FAV";
     public static final String HISTORY_CREATE =
             "create table " + TABLE_HISTORY +
@@ -24,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     COLUMN_ORIGTEXT + " text not null,  " +
                     COLUMN_TRANSLATELANG + " text not null,  " +
                     COLUMN_TRANSLATETEXT + " text not null,  " +
+                    COLUMN_TRANSLATESIN + " text not null,  " +
                     COLUMN_FAV + " text not null  " +
                     ");";
 

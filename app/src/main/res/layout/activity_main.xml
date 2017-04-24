@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:name="ru.dan.translator.Translator"
         tools:layout="@layout/translator"
-        android:id="@+id/l_translator"
+        android:id="@+id/f_translator"
         android:tag="translator"
     />
 

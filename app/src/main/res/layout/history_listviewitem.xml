@@ -4,12 +4,28 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/from"
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="ru" />
+
+    <TextView
+        android:id="@+id/to"
+        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/from"
+        android:layout_marginLeft="10dp"
+        android:text="ru" />
+
+    <TextView
         android:id="@+id/ot"
         style="?android:textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/from"
         android:layout_marginLeft="10dp"
         android:text="Some item" />
 
@@ -18,8 +34,9 @@
         style="?android:textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/ot"
+        android:layout_toRightOf="@id/to"
+        android:layout_alignBaseline="@id/to"
         android:layout_marginLeft="10dp"
         android:text="kdsjflskdjfls"
         />
