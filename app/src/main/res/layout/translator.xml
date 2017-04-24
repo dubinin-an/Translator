@@ -128,8 +128,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
                 android:textAlignment="center"
-                android:textSize="16dp"
-                android:text="Переведено с использованием\nYandex Translate и Yandex Dictionary"
+                android:textSize="14dp"
+                android:text="Реализовано с помощью сервисов\n«Яндекс.Переводчик» и «Яндекс.Словарь»"
                 />
 
         </LinearLayout>
